@@ -1,22 +1,66 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>Simple AR - A Web based AR for A-Frame</title>
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-</head>
-<body>
-  <script src="https://cdn.jsdelivr.net/gh/akbartus/Simple-AR/dist/0.1.2/simple-ar.min.js" onload="onWasmLoaded();"></script>
-  <a-scene>
-    <a-entity simple-ar="src: poster.png; minCutOffValue: 1; betaValue: 0.1;">
-      <a-video
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      #playButton {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 999;
+      }
+      #playButton.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="playButton" class="hidden">Play Video</button>
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
+        <a-asset-item id="avatarModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/softmind/scene.gltf"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-video
+        id="arVideo"
         src="fetus1.mp4"
-        width="2"  
-        height="4"
+        width="1"
+        height="2"
         position="0 0 0"
         rotation="0 0 0"
+        muted
+        playsinline
       ></a-video>
-    </a-entity>
-    <a-camera position="0 0 2"></a-camera> <!-- Adjust camera position to ensure visibility -->
-  </a-scene>
-</body>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      function playVideo() {
+        var video = document.querySelector('#arVideo');
+        var videoEl = video.components.material.material.map.image;
+        videoEl.play();
+      }
+
+      function handleOrientation(event) {
+        playVideo();
+        window.removeEventListener('deviceorientation', handleOrientation, true);
+      }
+
+      window.addEventListener('deviceorientation', handleOrientation, true);
+    </script>
+  </body>
 </html>

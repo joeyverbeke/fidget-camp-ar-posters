@@ -28,7 +28,7 @@
     <button id="playButton" class="hidden">Play Video</button>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
-        <video id="arVideoAsset" src="eyes-vid.mp4" playsinline preload="auto" muted></video>
+        <video id="arVideoAsset" src="eyes-vid.mp4" playsinline preload="auto" muted loop></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -43,6 +43,7 @@
           rotation="0 0 0"
           muted
           playsinline
+          loop
         ></a-video>
       </a-entity>
     </a-scene>

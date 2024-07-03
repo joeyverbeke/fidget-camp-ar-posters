@@ -24,21 +24,31 @@
         color: black;
       }
       .title-text {
-        font-size: 24px;
-        bottom: 80px;
+        font-size: 8vw;
+        bottom: 6vh;
       }
       .details-text {
-        font-size: 18px;
-        bottom: 60px;
+        font-size: 4vw;
+        bottom: 4vh;
       }
       .clickable-text {
         cursor: pointer;
         position: absolute;
-        bottom: 20px;
+        bottom: 2vh;
         width: 100%;
         text-align: center;
         color: blue;
-        font-size: 18px;
+        font-size: 4vw;
+      }
+      .text-background {
+        position: absolute;
+        bottom: 1vh; /* Adjusted margin from the bottom */
+        width: 80%; /* Adjusted width */
+        left: 10%; /* Centered the background */
+        height: 9.5vh; /* Adjust height to cover all text */
+        background-color: rgba(255, 250, 243, 0.8); /* Semi-transparent background color */
+        z-index: -1; /* Position behind text */
+        border-radius: 15px; /* Rounded corners */
       }
     </style>
   </head>
@@ -74,6 +84,7 @@
         ></a-text>
       </a-entity>
     </a-scene>
+    <div class="text-background hidden" id="textBackground"></div>
     <div id="fidgetCampTitle" class="absolute-text title-text hidden">
       Fidget Camp
     </div>
@@ -81,7 +92,7 @@
       July 26 - August 4, San Francisco
     </div>
     <div id="fidgetCampURL" class="clickable-text hidden">
-      <a href="fidgetcamp.com" target="_blank">https://fidgetcamp.com/</a>
+      <a href="https://fidgetcamp.com/" target="_blank">fidgetcamp.com</a>
     </div>
     <script>
       function playVideo() {
@@ -91,6 +102,7 @@
         document.querySelector('#fidgetCampTitle').classList.remove('hidden');
         document.querySelector('#fidgetCampDetails').classList.remove('hidden');
         document.querySelector('#fidgetCampURL').classList.remove('hidden');
+        document.querySelector('#textBackground').classList.remove('hidden');
       }
 
       function handleOrientation(event) {

@@ -19,6 +19,12 @@
       }
       .clickable-text {
         cursor: pointer;
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        color: blue;
+        font-size: 18px;
       }
     </style>
   </head>
@@ -56,7 +62,7 @@
           id="fidgetCampTitle"
           value="Fidget Camp"
           color="black"
-          width="2.5"
+          width="3"
           position="0 0.55 0.1"
           align="center"
           font="https://cdn.aframe.io/fonts/mozillavr.fnt"
@@ -66,60 +72,48 @@
           id="fidgetCampDetails"
           value="July 26 - August 4, San Francisco"
           color="black"
-          width="1.5"
-          position="0 0.4 0.1"
+          width="1"
+          position="0 0.40 0.1"
           align="center"
           font="https://cdn.aframe.io/fonts/mozillavr.fnt"
           visible="false"
-        ></a-text>
-        <a-text
-          id="fidgetCampURL"
-          value="https://fidgetcamp.com/"
-          color="blue"
-          width="1.5"
-          position="0 0.25 0.1"
-          align="center"
-          font="https://cdn.aframe.io/fonts/mozillavr.fnt"
-          visible="false"
-          class="clickable-text"
         ></a-text>
       </a-entity>
     </a-scene>
-
+    <div id="fidgetCampURL" class="clickable-text hidden">
+      <a href="https://fidgetcamp.com/" target="_blank">https://fidgetcamp.com/</a>
+    </div>
     <script>
       function playVideo() {
         var video = document.querySelector('#arVideoAsset');
         video.play();
-        document.querySelector('#tapText').setAttribute('visible', 'false');
-        document.querySelector('#fidgetCampTitle').setAttribute('visible', 'true');
-        document.querySelector('#fidgetCampDetails').setAttribute('visible', 'true');
-        document.querySelector('#fidgetCampURL').setAttribute('visible', 'true');
+        var tapText = document.querySelector('#tapText');
+        tapText.setAttribute('visible', 'false');
+        var fidgetCampTitle = document.querySelector('#fidgetCampTitle');
+        fidgetCampTitle.setAttribute('visible', 'true');
+        var fidgetCampDetails = document.querySelector('#fidgetCampDetails');
+        fidgetCampDetails.setAttribute('visible', 'true');
+        var fidgetCampURL = document.querySelector('#fidgetCampURL');
+        fidgetCampURL.classList.remove('hidden');
       }
 
       function handleOrientation(event) {
         playVideo();
         window.removeEventListener('deviceorientation', handleOrientation, true);
         window.removeEventListener('touchstart', handleTouch, true);
+        window.removeEventListener('click', handleTouch, true);
       }
 
       function handleTouch(event) {
         playVideo();
         window.removeEventListener('deviceorientation', handleOrientation, true);
         window.removeEventListener('touchstart', handleTouch, true);
+        window.removeEventListener('click', handleTouch, true);
       }
 
       window.addEventListener('deviceorientation', handleOrientation, true);
       window.addEventListener('touchstart', handleTouch, true);
-
-      document.addEventListener('click', function (e) {
-        var fidgetCampURL = document.querySelector('#fidgetCampURL');
-        if (fidgetCampURL && fidgetCampURL.getAttribute('visible') === 'true') {
-          var bbox = fidgetCampURL.getBoundingClientRect();
-          if (e.clientX >= bbox.left && e.clientX <= bbox.right && e.clientY >= bbox.top && e.clientY <= bbox.bottom) {
-            window.open('https://fidgetcamp.com/', '_blank');
-          }
-        }
-      });
+      window.addEventListener('click', handleTouch, true);
     </script>
   </body>
 </html>

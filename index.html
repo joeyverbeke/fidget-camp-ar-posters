@@ -14,30 +14,15 @@
         overflow: hidden;
         font-family: 'Gaegu', sans-serif;
       }
-      #playButton {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        z-index: 999;
-      }
-      #playButton.hidden {
-        display: none;
-      }
       .hidden {
         display: none;
+      }
+      .clickable-text {
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
-    <button id="playButton" class="hidden">Play Video</button>
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <video id="arVideoAsset" src="eyes-vid.mp4" playsinline preload="auto" muted loop></video>
@@ -67,6 +52,37 @@
           align="center"
           font="https://cdn.aframe.io/fonts/mozillavr.fnt"
         ></a-text>
+        <a-text
+          id="fidgetCampTitle"
+          value="Fidget Camp"
+          color="black"
+          width="2.5"
+          position="0 0.55 0.1"
+          align="center"
+          font="https://cdn.aframe.io/fonts/mozillavr.fnt"
+          visible="false"
+        ></a-text>
+        <a-text
+          id="fidgetCampDetails"
+          value="July 26 - August 4, San Francisco"
+          color="black"
+          width="1.5"
+          position="0 0.4 0.1"
+          align="center"
+          font="https://cdn.aframe.io/fonts/mozillavr.fnt"
+          visible="false"
+        ></a-text>
+        <a-text
+          id="fidgetCampURL"
+          value="https://fidgetcamp.com/"
+          color="blue"
+          width="1.5"
+          position="0 0.25 0.1"
+          align="center"
+          font="https://cdn.aframe.io/fonts/mozillavr.fnt"
+          visible="false"
+          class="clickable-text"
+        ></a-text>
       </a-entity>
     </a-scene>
 
@@ -74,8 +90,10 @@
       function playVideo() {
         var video = document.querySelector('#arVideoAsset');
         video.play();
-        var tapText = document.querySelector('#tapText');
-        tapText.setAttribute('visible', 'false');
+        document.querySelector('#tapText').setAttribute('visible', 'false');
+        document.querySelector('#fidgetCampTitle').setAttribute('visible', 'true');
+        document.querySelector('#fidgetCampDetails').setAttribute('visible', 'true');
+        document.querySelector('#fidgetCampURL').setAttribute('visible', 'true');
       }
 
       function handleOrientation(event) {
@@ -92,6 +110,16 @@
 
       window.addEventListener('deviceorientation', handleOrientation, true);
       window.addEventListener('touchstart', handleTouch, true);
+
+      document.addEventListener('click', function (e) {
+        var fidgetCampURL = document.querySelector('#fidgetCampURL');
+        if (fidgetCampURL && fidgetCampURL.getAttribute('visible') === 'true') {
+          var bbox = fidgetCampURL.getBoundingClientRect();
+          if (e.clientX >= bbox.left && e.clientX <= bbox.right && e.clientY >= bbox.top && e.clientY <= bbox.bottom) {
+            window.open('https://fidgetcamp.com/', '_blank');
+          }
+        }
+      });
     </script>
   </body>
 </html>
